@@ -143,7 +143,7 @@
     return null;
   }
 
-  var api = { lookupMerchant: lookupMerchant, KNOWN_MERCHANT_COUNT: compiled.length };
+  var api = { lookupMerchant: lookupMerchant, MERCHANTS: compiled, KNOWN_MERCHANT_COUNT: compiled.length };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.AuditMerchants = api;
 })(typeof self !== "undefined" ? self : this);

@@ -177,3 +177,20 @@ footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
   .item, .stat, .plan { box-shadow: none; break-inside: avoid; }
 }
 a.btn { text-decoration: none; display: inline-block; }
+
+/* Guide pages (guides/) */
+.crumbs { font-size: 14px; color: var(--muted); margin: 8px 0 0; }
+.guide { max-width: 720px; }
+.guide h1 { font-size: clamp(26px, 4.5vw, 36px); line-height: 1.2; margin: 16px 0 8px; letter-spacing: -0.02em; }
+.guide h2 { font-size: 20px; margin: 28px 0 8px; }
+.guide ol, .guide ul { padding-left: 22px; }
+.guide li { margin: 6px 0; }
+.guide blockquote { margin: 0; background: var(--surface-2); border-radius: 10px; padding: 12px 14px; }
+.guide blockquote p { margin: 0 0 8px; }
+.guide blockquote p:last-child { margin: 0; }
+.cta { background: var(--accent-soft); border-radius: var(--radius); padding: 16px 18px; margin: 28px 0; }
+.cta h2 { margin: 0 0 6px; }
+.cta p { margin: 0 0 12px; }
+.guide-list { columns: 2; column-gap: 24px; padding-left: 20px; }
+.guide-list li { break-inside: avoid; }
+@media (max-width: 680px) { .guide-list { columns: 1; } }

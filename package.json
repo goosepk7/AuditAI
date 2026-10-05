@@ -1,0 +1,10 @@
+{
+  "name": "auditai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "In-browser subscription, bill, and fee audit for bank and card statements.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "python3 -m http.server 8000"
+  }
+}

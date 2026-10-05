@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AuditAI – Subscription & Bill Audit</title>
+  <meta name="description" content="Upload your bank or card statements and find forgotten subscriptions, bills you can lower, and fees you can get refunded. Runs in your browser; nothing is uploaded.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230f7b5f'/><text x='16' y='22' font-size='17' font-family='Arial' font-weight='700' fill='white' text-anchor='middle'>$</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div class="logo" aria-hidden="true">$</div>
+      <div class="brand">AuditAI</div>
+    </header>
+
+    <div id="intro">
+      <section class="hero">
+        <h1>Find the subscriptions and fees quietly draining your account.</h1>
+        <p>Drop in 2 or 3 months of bank or credit card statements. In seconds you'll see every recurring charge, what it costs per year, and a ready-to-read script to cancel it, lower it, or get a fee refunded.</p>
+        <div class="privacy">🔒 Private by design: your statements are read on this device and never uploaded.</div>
+      </section>
+
+      <div class="steps">
+        <div class="step"><div class="n">1</div><b>Download statements</b><span>CSV is best. PDF works for most banks too.</span></div>
+        <div class="step"><div class="n">2</div><b>Drop them below</b><span>Add every account you use: checking and each card.</span></div>
+        <div class="step"><div class="n">3</div><b>Pick what to cut</b><span>Choose cancel, negotiate, or keep. Get your action plan.</span></div>
+      </div>
+    </div>
+
+    <div id="drop" class="drop" tabindex="0" role="button" aria-label="Choose statement files">
+      <h2>Drop statement files here</h2>
+      <p>or tap to choose files (CSV or PDF, as many as you like)</p>
+      <input id="file" type="file" accept=".csv,.txt,.pdf,text/csv,application/pdf" multiple hidden>
+    </div>
+    <div class="row center mt no-print">
+      <button id="sample" class="btn">No statements handy? Try sample data</button>
+      <button id="reset" class="btn hidden">Start over</button>
+    </div>
+
+    <div id="files" class="files" aria-live="polite"></div>
+
+    <details class="help">
+      <summary>How do I download my statements?</summary>
+      <p class="small muted">Sign in on your bank's website (the desktop site is easiest), open the account, and look for <b>Download</b> or <b>Export</b> near your transactions. Pick <b>CSV</b> (sometimes called "Spreadsheet", "Excel" or "Comma delimited") and a date range covering the last 90 days.</p>
+      <ul class="small">
+        <li><b>Chase:</b> open the account, click the download icon above transactions, choose "Spreadsheet (Excel, CSV)".</li>
+        <li><b>Bank of America:</b> open the account, click "Download", choose "Microsoft Excel" format.</li>
+        <li><b>Wells Fargo:</b> Account Activity, then "Download Account Activity", choose "Comma Delimited".</li>
+        <li><b>Capital One:</b> open the account, "View more transactions", then "Download Transactions", choose CSV.</li>
+        <li><b>Citi, Discover, American Express:</b> on the activity or statements page, choose "Download", then CSV.</li>
+        <li><b>Only have PDFs?</b> Upload the PDF statements. Text-based PDFs work; scanned images don't.</li>
+      </ul>
+      <p class="small muted">Menus change from time to time; if you can't find it, search your bank's help pages for "download transactions CSV".</p>
+    </details>
+
+    <div id="results" class="hidden">
+      <div class="summary">
+        <div class="stat"><div class="label">Recurring charges found</div><div class="value" id="s-count">0</div></div>
+        <div class="stat"><div class="label">They cost you per year</div><div class="value" id="s-total">$0</div></div>
+        <div class="stat savings"><div class="label">Your savings per year</div><div class="value" id="s-save">$0</div><div class="small muted" id="s-save-hint">Pick cancel or negotiate below</div></div>
+      </div>
+      <p class="small muted" id="period"></p>
+      <ul class="insights" id="insights"></ul>
+
+      <section class="group" id="g-subscriptions">
+        <h2>Subscriptions</h2>
+        <p>Services you can usually cancel online in a couple of minutes.</p>
+        <div class="list"></div>
+      </section>
+      <section class="group" id="g-bills">
+        <h2>Bills you can lower</h2>
+        <p>Phone, internet, and insurance companies often cut prices for customers who ask. A 15 minute call commonly saves 10 to 30 percent.</p>
+        <div class="list"></div>
+      </section>
+      <section class="group" id="g-fees">
+        <h2>Fees you can get back</h2>
+        <p>Banks and card companies refund many fees when you simply ask.</p>
+        <div class="list"></div>
+      </section>
+      <section class="group" id="g-other">
+        <h2>Other recurring payments</h2>
+        <p>Regular payments that aren't obvious subscriptions, like rent, utilities, or loans. Worth a quick look.</p>
+        <div class="list"></div>
+      </section>
+      <p id="none" class="hidden">We didn't find recurring charges in these files. Try adding more months or your other accounts.</p>
+
+      <div class="plan" id="plan">
+        <h2>Your action plan</h2>
+        <p id="plan-empty" class="muted">Choose <b>Cancel</b>, <b>Negotiate</b>, or <b>Get refund</b> on the items above and they'll show up here as a checklist.</p>
+        <ol id="plan-list"></ol>
+        <div class="row no-print" id="plan-actions">
+          <button class="btn primary" id="download-plan">Download plan with scripts</button>
+          <button class="btn" id="print-plan">Print</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      AuditAI reads your files only inside this browser tab. Nothing is sent to a server, saved, or tracked; closing the tab erases everything.
+      Estimates are based on the charges in your files, so double-check before you act.
+    </footer>
+  </div>
+
+  <script src="js/merchants.js"></script>
+  <script src="js/analyzer.js"></script>
+  <script src="js/scripts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
